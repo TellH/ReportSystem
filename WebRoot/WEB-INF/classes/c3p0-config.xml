@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+	<default-config>
+	    <property name="driverClass">com.mysql.jdbc.Driver</property>
+	    <property name="jdbcUrl">jdbc:mysql://localhost:3306/report_management_system?characterEncoding=utf-8</property>
+	    <property name="user">root</property>
+	    <property name="password">a123456</property>
+		<property name="acquireIncrement">5</property>
+		<property name="initialPoolSize">50</property>
+		<property name="minPoolSize">1</property>
+		<property name="maxPoolSize">100</property>
+		<property name="maxIdleTime">1800</property>
+		<property name="breakAfterAcquireFailure">true</property>
+		<property name="testConnectionOnCheckout">false</property>
+		
+	</default-config>
+	<named-config name="mysql">
+		<property name="acquireIncrement">5</property>
+		<property name="initialPoolSize">100</property>
+		<property name="minPoolSize">50</property>
+		<property name="maxPoolSize">1000</property>
+	</named-config>
+</c3p0-config>
