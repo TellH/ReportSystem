@@ -62,6 +62,47 @@ public class ReportForTeacherDao implements IReportDao {
 		}
 	}
 
+	public List<ReportForTeacherEntity> listByLesson(String userId, String lessonId, int startIndex,
+			int itemNum) {
+		String sql1="select r.* from report r"
+				+ " where r.teacherId=? and r.lessonId=? order by r.id limit ?,? ";
+		String sql2="select l.* from report r , lesson l "
+				+ "where r.teacherId=? and l.id=r.lessonId and r.lessonId=? order by r.id limit ?,? ";
+		QueryRunner qr=new QueryRunner();
+		try {
+			List<ReportForTeacherEntity> list=qr.query(conn, sql1, new BeanListHandler<ReportForTeacherEntity>(ReportForTeacherEntity.class),userId,lessonId,startIndex,itemNum);
+			List<Lesson> lessons=qr.query(conn,sql2, new BeanListHandler<Lesson>(Lesson.class),userId,lessonId,startIndex,itemNum);
+			System.out.println(lessons.size());
+			int index=0;
+			for (ReportForTeacherEntity entity : list) {
+				entity.setLesson(lessons.get(index));
+				index++;
+			}
+			return list;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	public int getListByLessonCount(String userId, String lessonId) {
+		String sql="select count(*) from report r"
+				+ " where r.teacherId=? and r.lessonId=? ";
+		QueryRunner qr=new QueryRunner();
+		try {
+			return qr.query(conn, sql,new ResultSetHandler<Integer>() {
+				@Override
+				public Integer handle(ResultSet rs) throws SQLException {
+					if(rs.next())
+						return rs.getInt(1);
+					return 0;
+				}
+			},userId,lessonId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	@Override
 	public List<ReportForTeacherEntity> listByTerm(String userId, String term, int startIndex,
 			int itemNum) {

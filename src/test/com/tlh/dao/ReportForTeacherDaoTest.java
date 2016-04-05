@@ -1,6 +1,6 @@
 package test.com.tlh.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tlh.dao.ReportForTeacherDao;
@@ -60,7 +59,7 @@ public class ReportForTeacherDaoTest {
 	@Test
 	public void testUpdatePerStudent() throws SQLException {
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("score", 91);
+		map.put("score", 92);
 		map.put("comment","159");
 		dao.updatePerStudent("5603111", "123789", map);
 	}

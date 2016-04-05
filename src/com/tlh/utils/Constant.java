@@ -10,4 +10,5 @@ public class Constant {
 	public static final int INDENTITY_ADMINISTRATOR=2 ;
 	public static final int LOCATION_YU=0;
 	public static final int LOCATION_MA=1;
+	public static final int DEF_ITEM_NUMBER=10;
 }

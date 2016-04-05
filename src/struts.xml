@@ -42,6 +42,20 @@
 			</result>
 		</action>
 	</package>
+		<package name="lesson" extends="json-default"
+		namespace="/lesson">
+		<action name="*" method="{1}" class="com.tlh.action.LessonAction">
+			<result type="json">
+				<param name="excludeNullProperties">true</param>
+				<param name="ignoreHierarchy">false</param>
+				<param name="ignoreInterfaces">false</param>
+				<param name="excludeProperties">
+					actionErrors,actionMessages,errorMessages,errors,fieldErrors,locale
+				</param>
+				<param name="root">model</param>
+			</result>
+		</action>
+	</package>
 	<constant name="struts.action.extension" value="do"></constant>
 	<constant name="struts.devMode" value="true"></constant>
 	<constant name="struts.i18n.encoding" value="utf-8"></constant>

@@ -7,10 +7,12 @@ import org.apache.struts2.json.annotations.JSON;
 
 import com.tlh.model.BaseModel;
 import com.tlh.model.ReportForTeacherModel;
+import com.tlh.model.UserInfo;
 import com.tlh.model.ReportForTeacherModel.ReportForTeacherEntity;
 import com.tlh.service.AccoutService;
 import com.tlh.service.Report4TeacherService;
 import com.tlh.utils.Constant;
+import com.tlh.utils.UserUtils;
 import com.tlh.utils.Utils;
 
 public class Report4TeacherAction extends BaseAction {
@@ -174,6 +176,11 @@ public class Report4TeacherAction extends BaseAction {
 		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
 		Report4TeacherService service = new Report4TeacherService();
 		List<ReportForTeacherEntity> data;
+		if(Utils.checkHasNull(userId)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listAllReport(page, itemNum, userId);
 			model.setData(data);
@@ -189,6 +196,11 @@ public class Report4TeacherAction extends BaseAction {
 		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
 		Report4TeacherService service = new Report4TeacherService();
 		List<ReportForTeacherEntity> data;
+		if(Utils.checkHasNull(userId,term)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listByTermReport(page, itemNum, userId,term);
 			model.setData(data);
@@ -204,6 +216,11 @@ public class Report4TeacherAction extends BaseAction {
 		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
 		Report4TeacherService service = new Report4TeacherService();
 		List<ReportForTeacherEntity> data;
+		if(Utils.checkHasNull(userId,lessonId)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listByLesson(userId,lessonId,page,itemNum);
 			model.setData(data);
@@ -216,13 +233,13 @@ public class Report4TeacherAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String detail(){
+		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
+		Report4TeacherService service = new Report4TeacherService();
 		if(Utils.checkHasNull(userId,reportId)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
 			return SUCCESS;
 		}
-		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
-		Report4TeacherService service = new Report4TeacherService();
 		try {
 			List<ReportForTeacherEntity> data = service.getDetailOfReport(
 					userId, reportId);
@@ -236,6 +253,15 @@ public class Report4TeacherAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String add(){
+		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
+		Report4TeacherService service = new Report4TeacherService();
+		UserInfo user =UserUtils.getUserFromSession();
+		if(!user.getId().equals(userId)){
+			model.setResult("failed");
+			model.setMsg("you can't do that before you login");
+			return SUCCESS;
+		}
+
 		if(Utils.checkHasNull(userId,reportName,password,content,lessonId,location)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
@@ -246,12 +272,10 @@ public class Report4TeacherAction extends BaseAction {
 			model.setMsg("wrong password");
 			return SUCCESS;
 		}
-		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
-		Report4TeacherService service = new Report4TeacherService();
 		try {
-			service.addReport(userId, reportName, content, lessonId, location, deadline, college, major);
+			service.addReport(userId, reportName, content, lessonId, location, deadline, college, major,note,templateUrl);
 			model.setResult("success");
-			model.setMsg("update successfully");
+			model.setMsg("add successfully");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			model.setResult("failed");
@@ -266,6 +290,14 @@ public class Report4TeacherAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String update(){
+		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
+		Report4TeacherService service = new Report4TeacherService();
+		UserInfo user =UserUtils.getUserFromSession();
+		if(!user.getId().equals(userId)){
+			model.setResult("failed");
+			model.setMsg("you can't do that before you login");
+			return SUCCESS;
+		}
 		if(Utils.checkHasNull(userId,reportId,password)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
@@ -276,8 +308,6 @@ public class Report4TeacherAction extends BaseAction {
 			model.setMsg("wrong password");
 			return SUCCESS;
 		}
-		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
-		Report4TeacherService service = new Report4TeacherService();
 		try {
 			service.updateReport(userId, reportId, reportName, deadline, content, note, templateUrl);
 			model.setResult("success");
@@ -296,6 +326,15 @@ public class Report4TeacherAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String delete(){
+		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
+		Report4TeacherService service = new Report4TeacherService();
+		UserInfo user =UserUtils.getUserFromSession();
+		if(!user.getId().equals(userId)){
+			model.setResult("failed");
+			model.setMsg("you can't do that before you login");
+			return SUCCESS;
+		}
+
 		if(Utils.checkHasNull(userId,reportId,password)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
@@ -306,8 +345,6 @@ public class Report4TeacherAction extends BaseAction {
 			model.setMsg("wrong password");
 			return SUCCESS;
 		}
-		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
-		Report4TeacherService service = new Report4TeacherService();
 		try {
 			service.deleteReport(userId, reportId);
 			model.setResult("success");
@@ -316,27 +353,32 @@ public class Report4TeacherAction extends BaseAction {
 			model.setResult("failed");
 			model.setMsg("there is something wrong while getting info");
 			return SUCCESS;
+		}catch(RuntimeException e){
+			model.setResult("failed");
+			model.setMsg(e.getMessage());
+			return SUCCESS;
 		}
 		return SUCCESS;
 	}
-	public String perStudent(){
-		if(Utils.checkHasNull(userId,reportId,password)){
+	public String updatePerStudent(){
+		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
+		Report4TeacherService service = new Report4TeacherService();
+		UserInfo user =UserUtils.getUserFromSession();
+		if(!user.getId().equals(userId)){
+			model.setResult("failed");
+			model.setMsg("you can't do that before you login");
+			return SUCCESS;
+		}
+		if(Utils.checkHasNull(userId,reportId,studentId)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
 			return SUCCESS;
 		}
-		if(!new AccoutService().hasCorrectPassword(userId, password, Constant.INDENTITY_TEACHER)){
-			model.setResult("failed");
-			model.setMsg("wrong password");
-			return SUCCESS;
-		}
-		ReportForTeacherModel model=(ReportForTeacherModel) getModel();
-		Report4TeacherService service = new Report4TeacherService();
 		try {
 			service.scoreStudentReport(userId, reportId, studentId, score, comment);
 			model.setResult("success");
 			model.setMsg("update report successfully");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			model.setResult("failed");
 			model.setMsg("there is something wrong while getting info");
 			return SUCCESS;

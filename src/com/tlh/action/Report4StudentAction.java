@@ -77,6 +77,11 @@ public class Report4StudentAction extends BaseAction {
 		ReportForStudentModel model=(ReportForStudentModel) getModel();
 		Report4StudentService service = new Report4StudentService();
 		List<ReportForStudentEntity> data;
+		if(Utils.checkHasNull(userId)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listAllReport(page, itemNum, userId);
 			model.setData(data);
@@ -93,6 +98,11 @@ public class Report4StudentAction extends BaseAction {
 		ReportForStudentModel model=(ReportForStudentModel) getModel();
 		Report4StudentService service = new Report4StudentService();
 		List<ReportForStudentEntity> data;
+		if(Utils.checkHasNull(userId,term)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listByTermReport(page, itemNum, userId,term);
 			model.setData(data);
@@ -110,6 +120,11 @@ public class Report4StudentAction extends BaseAction {
 		ReportForStudentModel model=(ReportForStudentModel) getModel();
 		Report4StudentService service = new Report4StudentService();
 		List<ReportForStudentEntity> data;
+		if(Utils.checkHasNull(userId,status)){
+			model.setResult("failed");
+			model.setMsg("parameter error");
+			return SUCCESS;
+		}
 		try {
 			data = service.listByStatusReport(page, itemNum, userId,status);
 			model.setData(data);
@@ -123,13 +138,13 @@ public class Report4StudentAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String detail(){
+		ReportForStudentModel model=(ReportForStudentModel) getModel();
+		Report4StudentService service = new Report4StudentService();
 		if(Utils.checkHasNull(userId,reportId)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
 			return SUCCESS;
 		}
-		ReportForStudentModel model=(ReportForStudentModel) getModel();
-		Report4StudentService service = new Report4StudentService();
 		try {
 			List<ReportForStudentEntity> data = service.getDetailOfReport(
 					userId, reportId);
@@ -143,6 +158,8 @@ public class Report4StudentAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String update(){
+		ReportForStudentModel model=(ReportForStudentModel) getModel();
+		Report4StudentService service = new Report4StudentService();
 		if(Utils.checkHasNull(userId,reportId,password)){
 			model.setResult("failed");
 			model.setMsg("parameter error");
@@ -154,8 +171,6 @@ public class Report4StudentAction extends BaseAction {
 			model.setMsg("wrong password");
 			return SUCCESS;
 		}
-		ReportForStudentModel model=(ReportForStudentModel) getModel();
-		Report4StudentService service = new Report4StudentService();
 		try {
 			service.update(userId, reportId, advice, docUrl);
 			model.setResult("success");

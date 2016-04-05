@@ -8,6 +8,7 @@ import java.util.Map;
 import com.tlh.dao.Page;
 import com.tlh.dao.ReportForTeacherDao;
 import com.tlh.model.ReportForTeacherModel.ReportForTeacherEntity;
+import com.tlh.utils.Constant;
 import com.tlh.utils.DaoUtils;
 import com.tlh.utils.Utils;
 
@@ -18,7 +19,7 @@ public class Report4TeacherService {
 	}
 	public List<ReportForTeacherEntity> listAllReport(int pageIndex, int itemNum,String id){
 		if(itemNum==0){
-			throw new RuntimeException();
+			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
 		if(pageIndex==0)
 			pageIndex=1;
@@ -33,7 +34,7 @@ public class Report4TeacherService {
 	public List<ReportForTeacherEntity> listByTermReport(int pageIndex,
 			int itemNum, String id,String term) {
 		if(itemNum==0){
-			throw new RuntimeException();
+			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
 		if(pageIndex==0)
 			pageIndex=1;
@@ -52,11 +53,22 @@ public class Report4TeacherService {
 			throw new RuntimeException(e);
 		}
 	}
-	public List<ReportForTeacherEntity>listByLesson(String userId,String lessonId,int pageIndex,int itemNum){
-		return null;
+	public List<ReportForTeacherEntity> listByLesson(String userId,String lessonId,int pageIndex,int itemNum){
+		if(itemNum==0){
+			itemNum=Constant.DEF_ITEM_NUMBER;
+		}
+		if(pageIndex==0)
+			pageIndex=1;
+		try {
+			Page page = new Page(pageIndex, dao.getListByLessonCount(userId, lessonId),
+					itemNum);
+			return dao.listByLesson(userId,lessonId, page.getStartIndex(), itemNum);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	public void addReport(String userId,String reportName,String content,String lessonId,int location,
-			String deadline,String college,String major) throws SQLException{
+			String deadline,String college,String major,String note,String templateUrl) throws SQLException{
 		try {
 			DaoUtils.startTransaction();
 			Map<String, Object> parms=new HashMap<String, Object>();
@@ -98,7 +110,9 @@ public class Report4TeacherService {
 	public void deleteReport(String userId,String reportId) throws SQLException{
 		try {
 			DaoUtils.startTransaction();
-			dao.delete(userId, reportId);
+			int i=dao.delete(userId, reportId);
+			if(i==0)
+				throw new RuntimeException("no such report");
 			DaoUtils.commit();
 		} catch (SQLException e) {
 			DaoUtils.rollback();
@@ -110,10 +124,13 @@ public class Report4TeacherService {
 		try {
 			DaoUtils.startTransaction();
 			Map<String, Object> parms=new HashMap<String, Object>();
-			parms.put("score", score);
+			if(score>0.0)
+				parms.put("score", score);
 			if(!Utils.isEmptyText(comment))
 				parms.put("comment", comment);
-			dao.update(userId, reportId, parms);
+			int change=dao.updatePerStudent(reportId, studentId, parms);
+			if(change!=1)
+				throw new RuntimeException();
 			DaoUtils.commit();
 		} catch (SQLException e) {
 			DaoUtils.rollback();

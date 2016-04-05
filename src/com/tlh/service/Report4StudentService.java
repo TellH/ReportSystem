@@ -8,6 +8,7 @@ import java.util.Map;
 import com.tlh.dao.Page;
 import com.tlh.dao.ReportForStudentDao;
 import com.tlh.model.ReportForStudentModel.ReportForStudentEntity;
+import com.tlh.utils.Constant;
 import com.tlh.utils.Utils;
 
 public class Report4StudentService {
@@ -19,7 +20,7 @@ public class Report4StudentService {
 	}
 	public List<ReportForStudentEntity> listAllReport(int pageIndex, int itemNum,String id){
 		if(itemNum==0){
-			throw new RuntimeException();
+			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
 		if(pageIndex==0)
 			pageIndex=1;
@@ -34,7 +35,7 @@ public class Report4StudentService {
 	public List<ReportForStudentEntity> listByTermReport(int pageIndex,
 			int itemNum, String id,String term) {
 		if(itemNum==0){
-			throw new RuntimeException();
+			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
 		if(pageIndex==0)
 			pageIndex=1;
@@ -49,7 +50,7 @@ public class Report4StudentService {
 	public List<ReportForStudentEntity> listByStatusReport(int pageIndex,
 			int itemNum, String id, int status) {
 		if(itemNum==0){
-			throw new RuntimeException();
+			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
 		if(pageIndex==0)
 			pageIndex=1;
