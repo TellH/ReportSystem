@@ -24,6 +24,11 @@ public class CharSetFilter implements Filter {
                  request.setCharacterEncoding(charSet );
                  response.setCharacterEncoding(charSet );
                  response.setContentType("text/html;charset=" +charSet);
+                 
+                 String access=conf .getInitParameter("access");
+                 response.addHeader("Access-Control-Allow-Origin", access);
+                 response.addHeader("Access-Control-Allow-Methods", "POST,GET");
+                 response.addHeader("Access-Control-Allow-Headers", "Content-Type");
                  chain.doFilter(new MyHttpServletRequest((HttpServletRequest) request ), response);
         }
          @Override

@@ -26,7 +26,14 @@ public class ReportForAdministratorModel extends BaseModel {
      * note :
      * templateUrl :
      */
-
+	private int totalPages=1;
+	public int getTotalPages() {
+		return totalPages;
+	}
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
+	
     private List<ReportForAdministratorEntity> data;
 
     public List<ReportForAdministratorEntity> getData() {

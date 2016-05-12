@@ -2,7 +2,16 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<package name="account" extends="json-default" namespace="/account">
+		<interceptors>
+			<interceptor name="CloseConnectionInterceptor"
+				class="com.tlh.filter.CloseConnectionInterceptor" />
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="CloseConnectionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
 		<action name="*" method="{1}" class="com.tlh.action.AccountAction">
+			<interceptor-ref name="myInterceptor" />
 			<result type="json">
 				<param name="excludeNullProperties">true</param>
 				<param name="ignoreHierarchy">false</param>
@@ -14,9 +23,19 @@
 			</result>
 		</action>
 	</package>
+
 	<package name="report4student" extends="json-default"
 		namespace="/report/student">
+		<interceptors>
+			<interceptor name="CloseConnectionInterceptor"
+				class="com.tlh.filter.CloseConnectionInterceptor" />
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="CloseConnectionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
 		<action name="*" method="{1}" class="com.tlh.action.Report4StudentAction">
+			<interceptor-ref name="myInterceptor" />
 			<result type="json">
 				<param name="excludeNullProperties">true</param>
 				<param name="ignoreHierarchy">false</param>
@@ -28,9 +47,19 @@
 			</result>
 		</action>
 	</package>
+
 	<package name="report4teacher" extends="json-default"
 		namespace="/report/teacher">
+		<interceptors>
+			<interceptor name="CloseConnectionInterceptor"
+				class="com.tlh.filter.CloseConnectionInterceptor" />
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="CloseConnectionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
 		<action name="*" method="{1}" class="com.tlh.action.Report4TeacherAction">
+			<interceptor-ref name="myInterceptor" />
 			<result type="json">
 				<param name="excludeNullProperties">true</param>
 				<param name="ignoreHierarchy">false</param>
@@ -42,9 +71,18 @@
 			</result>
 		</action>
 	</package>
-		<package name="lesson" extends="json-default"
-		namespace="/lesson">
+
+	<package name="lesson" extends="json-default" namespace="/lesson">
+		<interceptors>
+			<interceptor name="CloseConnectionInterceptor"
+				class="com.tlh.filter.CloseConnectionInterceptor" />
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="CloseConnectionInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
 		<action name="*" method="{1}" class="com.tlh.action.LessonAction">
+			<interceptor-ref name="myInterceptor" />
 			<result type="json">
 				<param name="excludeNullProperties">true</param>
 				<param name="ignoreHierarchy">false</param>

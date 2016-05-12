@@ -28,7 +28,13 @@ public class ReportForTeacherModel extends BaseModel{
      * templateUrl :
      * students : [{"id":"","status":"","score":"","comment":"","advice":"","docUrl":"","name":"","college":"","major":"","sex":"","location":"","enterTime":""}]
      */
-
+	private int totalPages=0;
+	public int getTotalPages() {
+		return totalPages;
+	}
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
     private List<ReportForTeacherEntity> data;
 
     public List<ReportForTeacherEntity> getData() {

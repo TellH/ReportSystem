@@ -17,21 +17,11 @@
 			<param-name>CharSet</param-name>
 			<param-value> UTF-8</param-value>
 		</init-param>
-	</filter>
-	  
-  	<filter>
-		<filter-name>CloseConnectionFilter</filter-name>
-		<filter-class>com.tlh.filter.CloseConnectionFilter</filter-class>
-			<init-param>
+		<init-param>
 			<param-name>access</param-name>
-			<param-value>http://tanlehua.top</param-value>
+			<param-value>*</param-value>
 		</init-param>
 	</filter>
-	<filter-mapping>
-		<filter-name>CloseConnectionFilter</filter-name>
-		<url-pattern> /*</url-pattern>
-	</filter-mapping>
-	
 	<filter-mapping>
 		<filter-name>CharSetFilter</filter-name>
 		<url-pattern> /*</url-pattern>

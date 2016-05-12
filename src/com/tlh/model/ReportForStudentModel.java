@@ -33,7 +33,14 @@ public class ReportForStudentModel extends BaseModel{
      * advice :
      * docUrl :
      */
-
+	private int totalPages=0;
+	public int getTotalPages() {
+		return totalPages;
+	}
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
+	
     private List<ReportForStudentEntity> data;
 
     public List<ReportForStudentEntity> getData() {

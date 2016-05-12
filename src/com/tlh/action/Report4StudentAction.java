@@ -24,6 +24,7 @@ public class Report4StudentAction extends BaseAction {
 	private String password;
 	private String advice;
 	private String docUrl;
+
 	public String getPassword() {
 		return password;
 	}
@@ -72,7 +73,7 @@ public class Report4StudentAction extends BaseAction {
 	public void setItemNum(int itemNum) {
 		this.itemNum = itemNum;
 	}
-	
+
 	public String listAll(){
 		ReportForStudentModel model=(ReportForStudentModel) getModel();
 		Report4StudentService service = new Report4StudentService();
@@ -87,6 +88,7 @@ public class Report4StudentAction extends BaseAction {
 			model.setData(data);
 			model.setResult("success");
 			model.setMsg("succeed to get info");
+			model.setTotalPages(service.totalPages);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.setResult("failed");
@@ -108,6 +110,7 @@ public class Report4StudentAction extends BaseAction {
 			model.setData(data);
 			model.setResult("success");
 			model.setMsg("succeed to get info");
+			model.setTotalPages(service.totalPages);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.setResult("failed");
@@ -115,7 +118,7 @@ public class Report4StudentAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
+
 	public String listByStatus(){
 		ReportForStudentModel model=(ReportForStudentModel) getModel();
 		Report4StudentService service = new Report4StudentService();
@@ -130,6 +133,7 @@ public class Report4StudentAction extends BaseAction {
 			model.setData(data);
 			model.setResult("success");
 			model.setMsg("succeed to get info");
+			model.setTotalPages(service.totalPages);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.setResult("failed");
@@ -208,5 +212,5 @@ public class Report4StudentAction extends BaseAction {
 		}
 		return super.getModel();
 	}
-	
+
 }

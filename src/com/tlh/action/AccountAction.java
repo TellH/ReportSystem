@@ -21,8 +21,6 @@ public class AccountAction extends BaseAction {
 	private String oldPassword;
 	private String newPassword;
 
-	
-	
 	@Override
 	public BaseModel getModel() {
 		if(model==null){

@@ -2,6 +2,7 @@ package com.tlh.dao;
 import java.util.List;
 
 public class Page {
+	public static int defaultPageSize=15;
 	private int pageSize;//一页展示的记录数
 	private int currentPage;//当前页数
 	private int totalRecord;//记录数
@@ -11,11 +12,11 @@ public class Page {
 	public Page(int currentPage, int totalRecord,int pageSize) {
 		this.currentPage = currentPage;
 		this.totalRecord = totalRecord;
-		totalPage=(int) Math.ceil((double)totalRecord/(double)currentPage);
+		totalPage=(int) Math.ceil((double)totalRecord/(double)pageSize);
 		startIndex=(currentPage-1)*pageSize;
 	}
 	public Page(int currentPage, int totalRecord) {
-		this(currentPage,totalRecord,15);
+		this(currentPage,totalRecord,defaultPageSize);
 	}
 	public int getPageSize() {
 		return pageSize;

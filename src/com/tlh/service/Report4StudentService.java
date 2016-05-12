@@ -15,10 +15,11 @@ public class Report4StudentService {
 
 	private ReportForStudentDao dao;
 
+	public int totalPages;
 	public Report4StudentService() {
 		this.dao=new ReportForStudentDao();
 	}
-	public List<ReportForStudentEntity> listAllReport(int pageIndex, int itemNum,String id){
+	public List<ReportForStudentEntity> listAllReport(int pageIndex, int itemNum,String id/*,Integer totalPages*/){
 		if(itemNum==0){
 			itemNum=Constant.DEF_ITEM_NUMBER;
 		}
@@ -27,6 +28,7 @@ public class Report4StudentService {
 		try {
 			Page page = new Page(pageIndex, dao.getListAllItemCount(id),
 					itemNum);
+			totalPages=page.getTotalPage();
 			return dao.listAll(id, page.getStartIndex(), itemNum);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -42,6 +44,7 @@ public class Report4StudentService {
 		try {
 			Page page = new Page(pageIndex, dao.getListByTermCount(id, term),
 					itemNum);
+			totalPages=page.getTotalPage();
 			return dao.listByTerm(id,term, page.getStartIndex(), itemNum);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -57,6 +60,7 @@ public class Report4StudentService {
 		try {
 			Page page = new Page(pageIndex, dao.getListByStatusItemCount(id, status),
 					itemNum);
+			totalPages=page.getTotalPage();
 			return dao.listByStatus(id, status,page.getStartIndex(), itemNum);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

@@ -23,6 +23,7 @@ public class DaoUtils {
 			conn=ds.getConnection();
 			threadLocal.set(conn);
 		}
+		conn=threadLocal.get();
 		return conn;
 	}
 	
