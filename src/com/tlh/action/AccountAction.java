@@ -90,8 +90,8 @@ public class AccountAction extends BaseAction {
 		try {
 			if(service.hasCorrectPassword(userId, oldPassword, identity)){
 				service.updatePassword(userId, identity, newPassword);
-				model.setMsg("success");
-				model.setResult("update successfully");
+				model.setResult("success");
+				model.setMsg("update successfully");
 			}else{
 				model.setResult("failed");
 				model.setMsg("wrong password");

@@ -18,7 +18,7 @@ public class BaseAction extends ActionSupport{
 		this.model = model;
 	}
 
-	@Override
+/*	@Override
 	public void validate() {
 		super.validate();
 		if (!(this instanceof AccountAction)) {
@@ -36,6 +36,6 @@ public class BaseAction extends ActionSupport{
 				addFieldError("", "");
 			}
 		}
-	}
+	}*/
 	
 }

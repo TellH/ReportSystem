@@ -28,7 +28,7 @@ public class CharSetFilter implements Filter {
                  String access=conf .getInitParameter("access");
                  response.addHeader("Access-Control-Allow-Origin", access);
                  response.addHeader("Access-Control-Allow-Methods", "POST,GET");
-                 response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+                 response.addHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, Content-Language, Cache-Control, X-E4M-With");
                  chain.doFilter(new MyHttpServletRequest((HttpServletRequest) request ), response);
         }
          @Override
