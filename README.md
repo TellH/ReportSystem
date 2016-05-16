@@ -1,0 +1,5 @@
+# ReportSystem
+java后台代码
+解决了困扰多久的bug,就是将Connection绑定到ThreadLocal上，并在filter的doChain后面进行释放操作，结果总是不能把Connection释放。我猜想原因
+应该是Struts2的filter搞的鬼，它可能开辟一个新线程将请求交给action来处理，如果把释放Connection的代码放到Interpretor上就可以完美释放Connection
+了。
